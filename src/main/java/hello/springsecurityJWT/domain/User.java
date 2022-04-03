@@ -1,4 +1,4 @@
-package hello.springsecurityJWT;
+package hello.springsecurityJWT.domain;
 
 import lombok.Data;
 
