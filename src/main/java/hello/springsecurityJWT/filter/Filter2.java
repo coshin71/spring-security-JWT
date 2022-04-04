@@ -18,7 +18,6 @@ public class Filter2 implements Filter {
 
         if (req.getMethod().equals("POST")) {
             String headerAuth = req.getHeader("Authorization");
-            System.out.println("headerAuth = " + headerAuth);
 
             if (headerAuth.equals("coshin")) {
                 chain.doFilter(req, res);

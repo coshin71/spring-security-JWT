@@ -28,15 +28,15 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
-        String jwtHeader = request.getHeader("Authorization");
+        String jwtHeader = request.getHeader(JwtProperties.HEADER_NAME);
 
-        if (jwtHeader == null || !jwtHeader.startsWith("Bearer")) {
+        if (jwtHeader == null || !jwtHeader.startsWith(JwtProperties.TOKEN_PREFIX)) {
             chain.doFilter(request, response);
             return;
         }
 
-        String jwtToken = request.getHeader("Authorization").replace("Bearer ", "");
-        String username = JWT.require(Algorithm.HMAC512("coshin")).build().verify(jwtToken).getClaim("username").asString();
+        String jwtToken = request.getHeader(JwtProperties.HEADER_NAME).replace(JwtProperties.TOKEN_PREFIX, "");
+        String username = JWT.require(Algorithm.HMAC512(JwtProperties.SECRET)).build().verify(jwtToken).getClaim("username").asString();
         if (username != null) {
             User user = userRepository.findByUsername(username);
 
